@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="tr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>10K Kumbara</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#f1e6d2;--panel:#fbf4e6;--ink:#2a1a0e;--mute:#7a6550;--line:#d9c6a6;--acc:#b5651d;--ok:#4f9a5f;--okink:#0e1a10;--cell:#fff9ec;--hd:#f1e6d2;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#17100b;--panel:#241810;--ink:#f3e7d1;--mute:#a58f74;--line:#3b291b;--acc:#e3a653;--ok:#8cc58a;--cell:#2f2016;--hd:#17100b}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#17100b;--panel:#241810;--ink:#f3e7d1;--mute:#a58f74;--line:#3b291b;--acc:#e3a653;--ok:#8cc58a;--cell:#2f2016;--hd:#17100b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.45 Barlow,system-ui,sans-serif;padding-bottom:84px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hd);z-index:10}
+.num{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:700;font-variant-numeric:tabular-nums}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--hd);padding:12px 16px 12px;border-bottom:1px solid var(--line)}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.top h1{margin:0;font:700 15px/1 Barlow,sans-serif;color:var(--mute)}
+.big{font-size:44px;line-height:1;color:var(--acc)}
+.big small{font-size:22px;color:var(--mute)}
+.goal{font-size:20px;color:var(--mute)}
+.bar{height:8px;border-radius:4px;background:var(--line);margin-top:10px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--ok));border-radius:4px;transition:width .5s}
+main{padding:14px 16px;max-width:760px;margin:auto}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px}
+.chip{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 12px;border-radius:99px;font:600 14px Barlow,sans-serif;cursor:pointer}
+.chip.on{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:4px}
+.c{aspect-ratio:1;border:1px solid var(--line);border-bottom-width:4px;border-radius:6px;background:var(--cell);color:var(--ink);font:700 16px "Barlow Condensed","Arial Narrow",sans-serif;cursor:pointer;padding:0;transition:transform .12s,background .2s}
+.c:active{transform:scale(.88)}
+.c.done{background:var(--ok);color:var(--okink);border-color:var(--ok);text-decoration:line-through;opacity:.85}
+.c.dim{opacity:.18}
+.c:focus-visible,.chip:focus-visible,nav button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 10px;font:700 17px Barlow,sans-serif}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+.tile b{display:block;font-size:28px;line-height:1.1}
+.tile span{color:var(--mute);font-size:14px}
+.row{display:grid;grid-template-columns:62px 1fr auto;gap:10px;align-items:center;padding:7px 0}
+.row .t{height:14px;border-radius:7px;background:var(--line);overflow:hidden}
+.row .t i{display:block;height:100%;border-radius:7px;transition:width .5s}
+.row .a{font-size:15px;color:var(--mute);text-align:right;min-width:92px}
+.lg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:14px;color:var(--mute)}
+.lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+svg{display:block;width:100%;height:auto}
+svg text{font:500 11px Barlow,sans-serif;fill:var(--mute)}
+.ladder{display:flex;justify-content:space-between;gap:6px}
+.ms{flex:1;text-align:center;padding:10px 2px;border:1px solid var(--line);border-radius:10px;font-size:22px}
+.ms.ok{background:var(--ok);color:var(--okink);border-color:var(--ok)}
+.ms span{display:block;font:400 12px Barlow,sans-serif}
+.btn{border:1px solid var(--line);background:none;color:var(--mute);padding:10px 14px;border-radius:10px;font:600 14px Barlow,sans-serif;cursor:pointer}
+.btn.warn{background:#b3402e;color:#fff;border-color:#b3402e}
+.win{background:var(--ok);color:var(--okink);border-radius:14px;padding:14px;text-align:center;font-size:26px;margin-bottom:14px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--hd);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:6}
+nav button{flex:1;border:0;background:none;color:var(--mute);padding:12px 4px;font:600 14px Barlow,sans-serif;cursor:pointer}
+nav button.on{color:var(--acc);box-shadow:inset 0 3px 0 var(--acc)}
+nav b{display:block;font-size:20px;line-height:1.1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div><h1>10K Kumbara</h1><div class="big num" id="hs"></div></div>
+    <div class="goal num" id="hg"></div>
+  </div>
+  <div class="bar"><i id="hb"></i></div>
+</header>
+<main id="v"></main>
+<nav id="nav">
+  <button data-t="k"><b>▦</b>Kumbara</button>
+  <button data-t="r"><b>◔</b>Kalan</button>
+  <button data-t="s"><b>▤</b>İstatistik</button>
+</nav>
+<script>
+const T=10000,D=[1,5,10,20,50,100,200];
+const C={200:15,100:25,50:40,20:65,10:60,5:100,1:100};
+const COL={1:"#9a8f7e",5:"#5fa8a0",10:"#6c9bd1",20:"#8a7fd0",50:"#d08a5a",100:"#d9a441",200:"#c8553d"};
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const V=[];D.forEach(d=>{for(let i=0;i<C[d];i++)V.push(d)});
+{const r=rng(10000);for(let i=V.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[V[i],V[j]]=[V[j],V[i]]}}
+let S={d:{}};
+try{const x=JSON.parse(localStorage.getItem("k10k")||"{}");if(x&&x.d)S=x}catch(e){}
+const save=()=>{try{localStorage.setItem("k10k",JSON.stringify(S))}catch(e){}};
+let tab="k",flt=0,hide=false,arm=false;
+const $=id=>document.getElementById(id);
+const tl=n=>Math.round(n).toLocaleString("tr-TR")+" ₺";
+const dk=t=>{const d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+function calc(){
+  const e=Object.entries(S.d).map(([i,t])=>({v:V[i],t,k:dk(t)}));
+  const day={};e.forEach(x=>day[x.k]=(day[x.k]||0)+x.v);
+  const saved=e.reduce((a,x)=>a+x.v,0);
+  const by={};D.forEach(d=>by[d]=0);e.forEach(x=>by[x.v]++);
+  const days=[];
+  if(e.length){const f=new Date(Math.min(...e.map(x=>x.t)));f.setHours(12,0,0,0);const n=new Date();n.setHours(12,0,0,0);
+    for(let d=new Date(f);d<=n;d=new Date(d.getTime()+864e5))days.push(dk(d))}
+  let run=0;const cum=[0];days.forEach(k=>{run+=day[k]||0;cum.push(run)});
+  let streak=0;{const n=new Date();n.setHours(12,0,0,0);let d=new Date(n);if(!day[dk(d)])d=new Date(d.getTime()-864e5);
+    while(day[dk(d)]){streak++;d=new Date(d.getTime()-864e5)}}
+  const avg=days.length?saved/days.length:0;
+  const best=Math.max(0,...Object.values(day));
+  const left=T-saved;
+  let eta="—";if(left<=0)eta="Tamam";else if(avg>0){const d=new Date(Date.now()+left/avg*864e5);eta=d.toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"})}
+  return{e,day,saved,by,days,cum,streak,avg,best,left,eta,count:e.length};
+}
+function head(s){
+  $("hs").innerHTML=Math.round(s.saved).toLocaleString("tr-TR")+" <small>₺</small>";
+  $("hg").textContent="/ "+T.toLocaleString("tr-TR")+" ₺";
+  $("hb").style.width=(s.saved/T*100)+"%";
+}
+function gridView(s){
+  let h='<div class="chips"><button class="chip'+(flt==0?" on":"")+'" data-f="0">Hepsi</button>';
+  D.slice().reverse().forEach(d=>h+='<button class="chip'+(flt==d?" on":"")+'" data-f="'+d+'">'+d+' ₺</button>');
+  h+='<button class="chip'+(hide?" on":"")+'" data-h="1">Yapılanları gizle</button></div>';
+  if(s.saved>=T)h+='<div class="win num">10.000 ₺ tamam! Kumbara doldu.</div>';
+  h+='<div class="grid">';
+  V.forEach((v,i)=>{const dn=S.d[i]!=null;
+    if(hide&&dn)return;
+    h+='<button class="c'+(dn?" done":"")+((flt&&flt!=v)?" dim":"")+'" data-i="'+i+'" style="'+(dn?"":"border-bottom-color:"+COL[v])+'" aria-pressed="'+dn+'" aria-label="'+v+' lira">'+v+'</button>'});
+  return h+'</div>';
+}
+function ring(s){
+  const r=52,c=2*Math.PI*r,p=Math.min(1,s.saved/T);
+  return '<svg viewBox="0 0 140 140" style="max-width:220px;margin:auto"><circle cx="70" cy="70" r="'+r+'" fill="none" stroke="var(--line)" stroke-width="14"/>'+
+  '<circle cx="70" cy="70" r="'+r+'" fill="none" stroke="var(--acc)" stroke-width="14" stroke-linecap="round" stroke-dasharray="'+(c*p)+' '+c+'" transform="rotate(-90 70 70)"/>'+
+  '<text x="70" y="76" text-anchor="middle" style="font:700 30px Barlow Condensed,sans-serif;fill:var(--ink)">%'+(p*100).toFixed(1).replace(".",",")+'</text></svg>';
+}
+function leftView(s){
+  const n=V.length-s.count;
+  let h='<div class="card" style="text-align:center"><div style="color:var(--mute)">10K’ya kalan</div><div class="num" style="font-size:56px;line-height:1.1;color:var(--acc)">'+tl(Math.max(0,s.left))+'</div><div style="color:var(--mute);margin-bottom:8px">'+n+' kutu kaldı, '+s.count+' kutu tamam</div>'+ring(s)+'</div>';
+  h+='<div class="card"><h2>Dönüm noktaları</h2><div class="ladder">';
+  [1000,2500,5000,7500,10000].forEach(m=>h+='<div class="ms num'+(s.saved>=m?" ok":"")+'">'+(m/1000).toString().replace(".",",")+'K<span>'+(s.saved>=m?"geçildi":tl(m-s.saved)+" kaldı")+'</span></div>');
+  h+='</div></div><div class="card"><h2>Hangi meblağdan kaç kutu kaldı</h2>';
+  D.slice().reverse().forEach(d=>{const rem=C[d]-s.by[d];
+    h+='<div class="row"><span class="num" style="font-size:20px">'+d+' ₺</span><div class="t"><i style="width:'+(rem/C[d]*100)+'%;background:'+COL[d]+'"></i></div><span class="a num">'+rem+' × = '+tl(rem*d)+'</span></div>'});
+  return h+'</div>';
+}
+function seg(s){
+  const r=52,c=2*Math.PI*r;let acc=0,h='<svg viewBox="0 0 140 140" style="max-width:220px;margin:auto"><circle cx="70" cy="70" r="'+r+'" fill="none" stroke="var(--line)" stroke-width="18"/>';
+  D.forEach(d=>{const a=s.by[d]*d;if(!a)return;const l=a/T*c;
+    h+='<circle cx="70" cy="70" r="'+r+'" fill="none" stroke="'+COL[d]+'" stroke-width="18" stroke-dasharray="'+l+' '+(c-l)+'" stroke-dashoffset="'+(-acc)+'" transform="rotate(-90 70 70)"/>';acc+=l});
+  h+='<text x="70" y="66" text-anchor="middle">biriken</text><text x="70" y="88" text-anchor="middle" style="font:700 22px Barlow Condensed,sans-serif;fill:var(--ink)">'+Math.round(s.saved).toLocaleString("tr-TR")+' ₺</text></svg><div class="lg">';
+  D.forEach(d=>h+='<span><i style="background:'+COL[d]+'"></i>'+d+' ₺</span>');
+  return h+'</div>';
+}
+function line(s){
+  const W=340,H=170,L=38,B=22,R=8,Tp=10,pts=s.cum,n=pts.length-1;
+  const x=i=>L+(n?i/n:0)*(W-L-R),y=v=>Tp+(1-v/T)*(H-Tp-B);
+  let h='<svg viewBox="0 0 '+W+' '+H+'">';
+  [0,2500,5000,7500,10000].forEach(g=>h+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(g)+'" y2="'+y(g)+'" stroke="var(--line)" stroke-dasharray="'+(g==10000?"5 4":"0")+'"/><text x="'+(L-6)+'" y="'+(y(g)+4)+'" text-anchor="end">'+(g/1000).toString().replace(".",",")+'K</text>');
+  if(n>=1){let d="M"+x(0)+" "+y(0);pts.forEach((v,i)=>{if(i)d+=" L"+x(i)+" "+y(v)});
+    h+='<path d="'+d+' L'+x(n)+' '+y(0)+' Z" fill="var(--acc)" opacity=".18"/><path d="'+d+'" fill="none" stroke="var(--acc)" stroke-width="3" stroke-linejoin="round"/><circle cx="'+x(n)+'" cy="'+y(pts[n])+'" r="4.5" fill="var(--acc)"/>';
+    const f=s.days[0].slice(5).split("-").reverse().join(".");const l=s.days[n-1].slice(5).split("-").reverse().join(".");
+    h+='<text x="'+L+'" y="'+(H-5)+'">'+f+'</text><text x="'+(W-R)+'" y="'+(H-5)+'" text-anchor="end">'+l+'</text>'}
+  else h+='<text x="'+(W/2)+'" y="'+(H/2)+'" text-anchor="middle">İlk kutuyu işaretle, çizgi başlasın</text>';
+  return h+'</svg>';
+}
+function bars(s){
+  const W=340,H=150,B=22,Tp=18,k=[];
+  for(let i=13;i>=0;i--){const d=new Date();d.setHours(12,0,0,0);k.push(new Date(d.getTime()-i*864e5))}
+  const vals=k.map(d=>s.day[dk(d)]||0),mx=Math.max(1,...vals),bw=(W-10)/14;
+  let h='<svg viewBox="0 0 '+W+' '+H+'">';
+  vals.forEach((v,i)=>{const bh=v/mx*(H-B-Tp),x=5+i*bw;
+    h+='<rect x="'+(x+3)+'" y="'+(H-B-bh)+'" width="'+(bw-6)+'" height="'+Math.max(bh,2)+'" rx="4" fill="'+(v?"var(--acc)":"var(--line)")+'"/>';
+    if(v)h+='<text x="'+(x+bw/2)+'" y="'+(H-B-bh-4)+'" text-anchor="middle">'+v+'</text>';
+    if(i%2==1||i==13)h+='<text x="'+(x+bw/2)+'" y="'+(H-6)+'" text-anchor="middle">'+k[i].getDate()+'.'+(k[i].getMonth()+1)+'</text>'});
+  return h+'</svg>';
+}
+function statView(s){
+  let h='<div class="tiles">'+
+  '<div class="tile"><b class="num">'+tl(s.saved)+'</b><span>biriken</span></div>'+
+  '<div class="tile"><b class="num">'+tl(Math.max(0,s.left))+'</b><span>10K’ya kalan</span></div>'+
+  '<div class="tile"><b class="num">'+s.count+' / '+V.length+'</b><span>tamamlanan kutu</span></div>'+
+  '<div class="tile"><b class="num">'+s.streak+' gün</b><span>üst üste seri</span></div>'+
+  '<div class="tile"><b class="num">'+tl(s.avg)+'</b><span>günlük ortalama</span></div>'+
+  '<div class="tile"><b class="num">'+tl(s.best)+'</b><span>en iyi gün</span></div></div>'+
+  '<div class="card"><h2>Tahmini bitiş</h2><div class="num" style="font-size:26px;color:var(--acc)">'+s.eta+'</div><span style="color:var(--mute)">Şimdiye kadarki günlük ortalamana göre</span></div>'+
+  '<div class="card"><h2>Biriken tutar, meblağlara göre</h2>'+seg(s)+'</div>'+
+  '<div class="card"><h2>Birikim grafiği</h2>'+line(s)+'</div>'+
+  '<div class="card"><h2>Son 14 gün</h2>'+bars(s)+'</div>'+
+  '<div class="card"><h2>Meblağ ilerlemesi</h2>';
+  D.slice().reverse().forEach(d=>h+='<div class="row"><span class="num" style="font-size:20px">'+d+' ₺</span><div class="t"><i style="width:'+(s.by[d]/C[d]*100)+'%;background:'+COL[d]+'"></i></div><span class="a num">'+s.by[d]+' / '+C[d]+'</span></div>');
+  h+='</div><div style="text-align:center"><button class="btn'+(arm?" warn":"")+'" id="rs">'+(arm?"Emin misin? Tekrar dokun":"Kumbarayı sıfırla")+'</button></div>';
+  return h;
+}
+function render(){
+  const s=calc();head(s);
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t==tab));
+  const y=window.scrollY;
+  $("v").innerHTML=tab=="k"?gridView(s):tab=="r"?leftView(s):statView(s);
+  window.scrollTo(0,y);
+}
+$("nav").onclick=e=>{const b=e.target.closest("button");if(!b)return;tab=b.dataset.t;arm=false;window.scrollTo(0,0);render()};
+$("v").onclick=e=>{
+  const c=e.target.closest(".c"),f=e.target.closest("[data-f]"),h=e.target.closest("[data-h]"),r=e.target.closest("#rs");
+  if(c){const i=c.dataset.i;if(S.d[i]!=null)delete S.d[i];else S.d[i]=Date.now();save();render()}
+  else if(f){flt=+f.dataset.f;render()}
+  else if(h){hide=!hide;render()}
+  else if(r){if(arm){S={d:{}};save();arm=false}else{arm=true;setTimeout(()=>{if(arm){arm=false;if(tab=="s")render()}},3500)}render()}
+};
+render();
+</script>
+</body>
+</html>
